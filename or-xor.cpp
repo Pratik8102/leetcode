@@ -45,6 +45,13 @@
 // ⊕ represents the bitwise XOR operation.
 
 
+
+//Observation
+// Line 1
+// n | n-1 is n itself n ^ n-1 is 1 Therefore there multiplication results in n.
+
+
+
 #include <iostream>
 using namespace std;
 
