@@ -1,41 +1,31 @@
 #include <iostream>
 #include <vector>
-#include <stack>
-#include <set>
 
 class Solution {
 public:
-    std::string findDifferentBinaryString(std::vector<std::string>& nums) {
-        std::set<std::string> st(nums.begin(), nums.end());
-        int n = nums[0].size();
-        std::string ans = "";
-        std::stack<std::string> stack;
-        stack.push("");
-
-        while (!stack.empty()) {
-            std::string current = stack.top();
-            stack.pop();
-
-            if (current.size() == n) {
-                if (st.find(current) == st.end()) {
-                    ans = current;
-                    break;
-                }
-            } else {
-                stack.push(current + '0');
-                stack.push(current + '1');
+    int longestNiceSubarray(std::vector<int>& nums) {
+        int num = 0;
+        int j = 0;
+        int ans = 0;
+        for (int i = 0; i < nums.size(); i++) {
+            while ((num & nums[i]) != 0) {
+                num = num ^ nums[j++];
             }
+            num = num | nums[i];
+            ans = std::max(ans, i - j + 1);
         }
-
         return ans;
     }
 };
 
 int main() {
+    // Example usage
     Solution solution;
-    std::vector<std::string> nums = {"01", "10", "11"};
-    std::string result = solution.findDifferentBinaryString(nums);
-    std::cout << "Result: " << result << std::endl;
+    std::vector<int> nums = {1, 2, 2, 3, 4, 5, 6, 7, 8, 9};
+    int result = solution.longestNiceSubarray(nums);
+
+    // Display the result
+    std::cout << "Length of the longest nice subarray: " << result << std::endl;
 
     return 0;
 }
