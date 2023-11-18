@@ -1,18 +1,27 @@
 #include <iostream>
-#include <vector>
+#include <string>
+#include <set>
+
+using namespace std;
 
 class Solution {
 public:
-    int longestNiceSubarray(std::vector<int>& nums) {
-        int num = 0;
-        int j = 0;
+    int lengthOfLongestSubstring(string s) {
+        int n = s.length();
+        int head = 0;
+        set<char> st;
         int ans = 0;
-        for (int i = 0; i < nums.size(); i++) {
-            while ((num & nums[i]) != 0) {
-                num = num ^ nums[j++];
+        int tail = 0;
+
+        while (head < n) {
+            if (st.find(s[head]) != st.end()) {
+                st.erase(s[tail]);
+                tail++;
+            } else {
+                ans = max(ans, head - tail + 1);
+                st.insert(s[head]);
+                head++;
             }
-            num = num | nums[i];
-            ans = std::max(ans, i - j + 1);
         }
         return ans;
     }
@@ -21,11 +30,15 @@ public:
 int main() {
     // Example usage
     Solution solution;
-    std::vector<int> nums = {1, 2, 2, 3, 4, 5, 6, 7, 8, 9};
-    int result = solution.longestNiceSubarray(nums);
 
-    // Display the result
-    std::cout << "Length of the longest nice subarray: " << result << std::endl;
+    // Test string
+    string testString = "abcabcbb";
+
+    // Call the function
+    int result = solution.lengthOfLongestSubstring(testString);
+
+    // Print the result
+    cout << "Length of the longest substring without repeating characters: " << result << endl;
 
     return 0;
 }
